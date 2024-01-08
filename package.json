@@ -18,5 +18,8 @@
     "@types/node": "^20.10.5",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
+  },
+  "publishConfig": {
+    "@luminationdev:registry": "https://npm.pkg.github.com"
   }
 }
