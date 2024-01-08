@@ -9,17 +9,7 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - run: npm ci
-
   publish-gpr:
-    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,21 +18,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@luminationdev'
       - run: npm ci
-      - name: Authenticate with the GitHub Package Registry
-        run:
-          echo "npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          NPM_CONFIG_USERCONFIG: '/home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc'
-      - name: Add registry
-        run:
-          echo "registry=https://npm.pkg.github.com/" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
-      - run: cat /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          NPM_CONFIG_USERCONFIG: '/home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc'
