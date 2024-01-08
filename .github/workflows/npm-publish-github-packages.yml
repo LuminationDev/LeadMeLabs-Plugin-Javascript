@@ -30,8 +30,10 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-      - run: ls
-      - run: cat .npmrc
+          scope: '@luminationdev'
+      - name: Authenticate with the GitHub Package Registry
+        run:
+          echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - run: npm ci
       - run: npm publish
         env:
