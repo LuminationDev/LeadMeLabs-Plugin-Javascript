@@ -35,6 +35,9 @@ jobs:
       - name: Authenticate with the GitHub Package Registry
         run:
           echo "npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
+          env:
+            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            NPM_CONFIG_USERCONFIG: '/home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc'
       - name: Add registry
         run:
           echo "registry=https://npm.pkg.github.com/" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
