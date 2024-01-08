@@ -32,9 +32,12 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@luminationdev'
       - run: npm ci
+      - name: Add newline
+        run:
+          echo "" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
       - name: Authenticate with the GitHub Package Registry
         run:
-          echo "\nnpm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
+          echo "npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" >> /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           NPM_CONFIG_USERCONFIG: '/home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc'
