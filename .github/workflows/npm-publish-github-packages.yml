@@ -31,10 +31,11 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: '@luminationdev'
+      - run: npm ci
       - name: Authenticate with the GitHub Package Registry
         run:
           echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
-      - run: npm ci
+      - run: cat /home/runner/work/LeadMeLabs-Plugin-Javascript/LeadMeLabs-Plugin-Javascript/.npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
