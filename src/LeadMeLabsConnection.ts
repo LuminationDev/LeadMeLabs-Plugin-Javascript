@@ -23,7 +23,7 @@ class LeadMeLabsConnection {
         var PIPE_PATH = "\\\\.\\pipe\\" + PIPE_NAME;
         this.server = net.createServer((stream: Socket) => {
             stream.on('data', (c) => {
-                this.handleMessage(c.toString())
+                this.handleMessage(c.toString().replace(/\u0000/g, ''))
             });
         });
         this.server.listen(PIPE_PATH)
@@ -39,7 +39,7 @@ class LeadMeLabsConnection {
         if (!this.client) {
             this.client = net.connect(PIPE_PATH)
         }
-        this.client.write(message)
+        this.client.write(Buffer.from(message, 'utf16le'))
     }
 
     public setLogCallback(callback: () => void) {
