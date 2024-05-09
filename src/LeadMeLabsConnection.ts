@@ -25,8 +25,10 @@ class LeadMeLabsConnection {
             stream.on('data', (c) => {
                 this.handleMessage(c.toString().replace(/\u0000/g, ''))
             });
-        });
-        this.server.listen(PIPE_PATH)
+        }).on('error', () => { this.server = null });
+        if (this.server) {
+            this.server.listen(PIPE_PATH)
+        }
     }
 
     public disconnect() {
@@ -37,9 +39,11 @@ class LeadMeLabsConnection {
         var PIPE_NAME = "leadme_parent_api";
         var PIPE_PATH = "\\\\.\\pipe\\" + PIPE_NAME;
         if (!this.client) {
-            this.client = net.connect(PIPE_PATH)
+            this.client = net.connect(PIPE_PATH).on('error', () => { this.client = null })
         }
-        this.client.write(Buffer.from(message, 'utf16le'))
+        if (this.client) {
+            this.client.write(Buffer.from(message, 'utf16le'))
+        }
     }
 
     public setLogCallback(callback: () => void) {
